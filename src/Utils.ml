@@ -3,18 +3,24 @@
     A substitution is build upon the definition of Term.  To be a Term
    means that:
 
-    - there is a type of variable name (or there is no sense in
+    - There is a type of variable name (or there is no sense in
    talking about substitution) that can be compared (for
    implementation reason, but the minimum requirement is decidable
    equality).
 
-    - there is a type of term that can be traversed (applying a
-   function at each variables. As we don't know anything about the
-   inductive structure of the term type here, the trav function should
-   be provided by the user.  - we can get the list of all the
-   variables that occurs in a term.
+    - There is a type of term that can be traversed (applying a
+   function at each variables.
 
-    - we can turn a variable name into a term (typically var x) and
+    - As we don't know anything about the inductive structure of the
+   term type here, the trav function should be provided by the user.
+
+    - We will need decidable equality between terms
+
+    - We will need to decide whether a term is a variable or not
+
+    - We can get the list of all the variables that occurs in a term.
+
+    - We can turn a variable name into a term (typically var x) and
    get the name of a variable (that is a partial function)
 
 **)
@@ -23,12 +29,13 @@ sig
   type v
   val compare: v -> v -> int
   type t
+  val trav: (v -> t) -> t -> t    
   val eq_term: t -> t -> bool
-  val trav: (v -> t) -> t -> t
+  val isvar : t -> bool    
   val vars: t -> v list    
   val v2t : v -> t
   val t2v : t -> v option
-  val isvar : t -> bool
+
 end
 
 
